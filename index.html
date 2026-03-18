@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLYSK Advisory — Technology Advisory Boutique</title>
+<meta name="description" content="GLYSK Advisory is a technology advisory boutique. We help EU companies assess tech maturity, define transformation roadmaps, and execute them. Data-driven, end to end.">
+<meta property="og:title" content="GLYSK Advisory">
+<meta property="og:description" content="Where transformation meets execution.">
+<meta property="og:url" content="https://advisory.glysk.eu">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,200;0,300;0,400;0,500;1,200;1,300&display=swap" rel="stylesheet">
+<script>window.Koalendar=window.Koalendar||function(){(Koalendar.props=Koalendar.props||[]).push(arguments)};</script>
+<script async src="https://koalendar.com/assets/widget.js"></script>
+<script>Koalendar('init');</script>
+<style>
+/* TOKENS */
+:root{--bg:#F6F3EE;--fg:rgba(17,17,17,0.88);--fg-full:#111111;--muted:rgba(17,17,17,0.44);--subtle:rgba(17,17,17,0.05);--border:rgba(17,17,17,0.10);--accent-c:#2A7A6E;--nav-bg:rgba(246,243,238,0.92);--card-bg:#EFECEA;--radius:2px;--ease:cubic-bezier(0.16,1,0.3,1)}
+[data-theme="dark"]{--bg:#111111;--fg:rgba(243,240,234,0.88);--fg-full:rgba(243,240,234,0.96);--muted:rgba(243,240,234,0.44);--subtle:rgba(243,240,234,0.05);--border:rgba(243,240,234,0.09);--accent-c:#5BB8A4;--nav-bg:rgba(17,17,17,0.92);--card-bg:#191919}
+
+/* RESET */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Jost',sans-serif;font-size:18px;font-weight:300;line-height:1.7;background:var(--bg);color:var(--fg);-webkit-font-smoothing:antialiased;transition:background .4s var(--ease),color .4s var(--ease)}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:none;background:none;font-family:inherit;color:inherit}
+
+/* NAV */
+nav{position:fixed;inset:0 0 auto 0;z-index:200;height:64px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;background:var(--nav-bg);backdrop-filter:blur(24px) saturate(180%);-webkit-backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid var(--border);transition:background .4s var(--ease),border-color .4s var(--ease)}
+.nav-logo{display:flex;align-items:center;gap:.75rem}
+.nav-logo-mark{width:56px;height:56px;flex-shrink:0}
+.nav-logo-text{display:flex;flex-direction:column;line-height:1.1}
+.nav-logo-name{font-size:.875rem;font-weight:200;letter-spacing:.34em;text-transform:uppercase;color:var(--fg-full)}
+.nav-logo-entity{font-size:.6rem;font-weight:300;letter-spacing:.48em;text-transform:uppercase;color:var(--muted)}
+.nav-links{display:flex;align-items:center;gap:2rem;list-style:none}
+.nav-links a{font-size:.72rem;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);transition:color .2s}
+.nav-links a:hover,.nav-links a.active{color:var(--fg)}
+.nav-right{display:flex;align-items:center;gap:.875rem}
+
+/* THEME TOGGLE — critical: separate CSS for each icon state */
+.theme-toggle{width:38px;height:38px;display:flex;align-items:center;justify-content:center;border-radius:50%;color:var(--muted);transition:color .2s,background .2s}
+.theme-toggle:hover{color:var(--fg);background:var(--subtle)}
+.theme-toggle svg{width:17px;height:17px;display:block;pointer-events:none}
+/* default (dark mode): show moon, hide sun */
+.icon-sun{display:none}
+.icon-moon{display:block}
+/* light mode: show sun, hide moon */
+[data-theme="light"] .icon-sun{display:block}
+[data-theme="light"] .icon-moon{display:none}
+
+.btn-nav{font-size:.72rem;font-weight:400;letter-spacing:.1em;text-transform:uppercase;padding:.45rem 1.1rem;border:1px solid var(--border);border-radius:var(--radius);transition:background .2s,border-color .2s,color .2s}
+.btn-nav:hover{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.hamburger{display:none;flex-direction:column;gap:5px;padding:8px}
+.hamburger span{display:block;width:20px;height:1px;background:var(--fg);transition:all .3s}
+@media(max-width:820px){.nav-links,.btn-nav{display:none}.hamburger{display:flex}}
+nav.open .nav-links{display:flex!important;flex-direction:column;position:fixed;top:64px;left:0;right:0;background:var(--bg);padding:2rem 2.5rem 2.5rem;border-bottom:1px solid var(--border);gap:1.25rem;z-index:199}
+nav.open .nav-links a{font-size:.9rem}
+
+/* LAYOUT */
+.container{max-width:1100px;margin:0 auto;padding:0 2.5rem}
+section{padding:6.5rem 0}
+.label{font-size:.65rem;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--accent-c);margin-bottom:1.5rem;display:flex;align-items:center;gap:.6rem}
+.label::before{content:'';display:block;width:18px;height:1px;background:var(--accent-c)}
+hr.rule{border:none;border-top:1px solid var(--border)}
+
+/* BUTTON */
+.btn-primary{display:inline-flex;align-items:center;gap:.5rem;font-size:.78rem;font-weight:400;letter-spacing:.1em;text-transform:uppercase;padding:.75rem 1.75rem;border-radius:var(--radius);background:var(--fg);color:var(--bg);transition:opacity .2s,transform .2s var(--ease)}
+.btn-primary:hover{opacity:.82;transform:translateY(-2px)}
+.btn-primary svg{width:12px;height:12px}
+
+/* HERO */
+#hero{min-height:100svh;display:flex;flex-direction:column;justify-content:flex-end;padding-top:64px;padding-bottom:7rem;position:relative;overflow:hidden}
+.hero-glow{position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 45% 55% at 75% 30%,rgba(91,184,164,.12) 0%,transparent 65%),radial-gradient(ellipse 30% 40% at 10% 80%,rgba(91,184,164,.07) 0%,transparent 55%)}
+[data-theme="light"] .hero-glow{background:radial-gradient(ellipse 45% 55% at 75% 30%,rgba(42,122,110,.06) 0%,transparent 65%)}
+.hero-inner{position:relative;max-width:1100px;width:100%;margin:0 auto;padding:0 2.5rem}
+.hero-eyebrow{font-size:.67rem;font-weight:300;letter-spacing:.24em;text-transform:uppercase;color:var(--accent-c);margin-bottom:2rem;display:flex;align-items:center;gap:.75rem}
+.hero-eyebrow::before{content:'';display:block;width:28px;height:1px;background:var(--accent-c)}
+h1.headline{font-size:clamp(2.75rem,6.5vw,6.5rem);font-weight:200;line-height:1.03;letter-spacing:-.02em;max-width:860px;margin-bottom:2rem;color:var(--fg-full)}
+h1.headline em{font-style:italic;font-weight:200}
+.hero-sub{font-size:1rem;font-weight:300;color:var(--muted);max-width:440px;line-height:1.72;margin-bottom:3rem}
+.hero-secondary{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);transition:color .2s}
+.hero-secondary:hover{color:var(--fg)}
+
+/* ABOUT */
+#about{background:var(--bg)}
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:5.5rem;align-items:start}
+.about-left h2{font-size:clamp(1.875rem,3vw,2.875rem);font-weight:200;line-height:1.12;letter-spacing:-.02em;margin-bottom:2.5rem}
+.stats-row{display:flex;gap:2.5rem;padding-top:2.5rem;border-top:1px solid var(--border)}
+.stat-num{font-size:2rem;font-weight:200;line-height:1;letter-spacing:-.02em;color:var(--fg-full)}
+.stat-lbl{font-size:.67rem;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-top:.4rem}
+.about-right p{font-size:1rem;line-height:1.84;color:var(--muted);margin-bottom:1.5rem}
+.about-right p:last-child{margin-bottom:0}
+.about-right strong{color:var(--fg);font-weight:400}
+.about-right a{color:var(--accent-c);border-bottom:1px solid currentColor}
+
+/* PRACTICES */
+#practices{background:var(--card-bg);transition:background .4s var(--ease)}
+.practices-top{margin-bottom:3.5rem}
+.practices-top h2{font-size:clamp(1.75rem,3vw,2.5rem);font-weight:200;letter-spacing:-.02em}
+.practices-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+.practice-card{padding:2.5rem;border:1px solid var(--border);border-radius:var(--radius);background:var(--bg);display:flex;flex-direction:column;gap:1.5rem;transition:border-color .3s,transform .3s var(--ease)}
+.practice-card:hover{border-color:var(--accent-c);transform:translateY(-3px)}
+.practice-num{font-size:.65rem;font-weight:400;letter-spacing:.2em;color:var(--accent-c)}
+.practice-title{font-size:1.125rem;font-weight:300;letter-spacing:-.01em;line-height:1.3;color:var(--fg-full)}
+.practice-body{font-size:.875rem;line-height:1.78;color:var(--muted);flex-grow:1}
+.practice-tag{display:inline-flex;font-size:.63rem;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-c);padding:.35rem .75rem;border:1px solid var(--accent-c);border-radius:1px;opacity:.7}
+
+/* INFLECTION SCAN */
+#inflection{background:var(--bg)}
+.inflection-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.inflection-left h2{font-size:clamp(1.875rem,3vw,2.875rem);font-weight:200;line-height:1.12;letter-spacing:-.02em;margin-bottom:1.5rem}
+.inflection-left p{font-size:1rem;color:var(--muted);line-height:1.8;margin-bottom:1.5rem}
+.inflection-left p:last-of-type{margin-bottom:2.5rem}
+.inflection-right{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.inflection-header{padding:1.75rem 2rem;border-bottom:1px solid var(--border);background:var(--card-bg);display:flex;align-items:center;justify-content:space-between;transition:background .4s var(--ease)}
+.inflection-header-title{font-size:.72rem;font-weight:400;letter-spacing:.18em;text-transform:uppercase}
+.inflection-badge{font-size:.6rem;font-weight:400;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-c);border:1px solid var(--accent-c);padding:.25rem .65rem;border-radius:1px}
+.inflection-steps{list-style:none}
+.inflection-step{display:flex;align-items:flex-start;gap:1.25rem;padding:1.5rem 2rem;border-bottom:1px solid var(--border)}
+.inflection-step:last-child{border-bottom:none}
+.step-num{font-size:.65rem;font-weight:400;letter-spacing:.14em;color:var(--accent-c);min-width:24px;padding-top:.1rem}
+.step-title{font-size:.9375rem;font-weight:400;color:var(--fg);margin-bottom:.25rem}
+.step-desc{font-size:.825rem;color:var(--muted);line-height:1.65}
+
+/* TEAM CAROUSEL */
+#team{background:var(--card-bg);transition:background .4s var(--ease)}
+.carousel-wrap{overflow:hidden}
+.carousel{display:flex;transition:transform .55s var(--ease);will-change:transform}
+.team-card{min-width:100%;display:grid;grid-template-columns:200px 1fr;gap:5rem;align-items:start}
+.team-photo{border-radius:var(--radius);overflow:hidden;aspect-ratio:4/5;background:var(--bg);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.team-photo img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;transition:transform .6s var(--ease)}
+.team-photo:hover img{transform:scale(1.03)}
+.team-photo-ph{border:1px solid var(--border)}
+.team-initials{font-size:1.75rem;font-weight:200;letter-spacing:.12em;color:var(--muted)}
+.team-name{font-size:clamp(1.625rem,2.5vw,2.25rem);font-weight:200;letter-spacing:-.02em;margin-bottom:.2rem}
+.team-role{font-size:.67rem;font-weight:300;letter-spacing:.18em;text-transform:uppercase;color:var(--accent-c);margin-bottom:2.5rem}
+.team-quote{font-size:1.05rem;font-weight:200;font-style:italic;line-height:1.78;color:var(--muted);border-left:1.5px solid var(--accent-c);padding-left:1.5rem;margin-bottom:2rem}
+.team-quote strong{color:var(--fg);font-weight:300;font-style:normal}
+.team-body{font-size:.9125rem;line-height:1.82;color:var(--muted)}
+.team-credentials{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:2rem}
+.credential{font-size:.62rem;font-weight:400;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);padding:.3rem .7rem;border-radius:1px}
+.carousel-dots{display:flex;justify-content:center;gap:.75rem;margin-top:3rem}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--border);border:none;cursor:pointer;padding:0;transition:background .25s,transform .25s var(--ease)}
+.dot.active{background:var(--accent-c);transform:scale(1.5)}
+
+/* CONTACT */
+#contact{background:var(--bg)}
+.contact-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+.contact-left h2{font-size:clamp(1.875rem,3.5vw,3rem);font-weight:200;letter-spacing:-.02em;line-height:1.1;margin-bottom:1.25rem}
+.contact-left p{font-size:1rem;color:var(--muted);line-height:1.74;max-width:380px;margin-bottom:2.5rem}
+.contact-items{display:flex;flex-direction:column;gap:.875rem}
+.contact-item{display:flex;align-items:flex-start;gap:.875rem;padding:1.1rem 1.4rem;border:1px solid var(--border);border-radius:var(--radius);transition:border-color .2s,background .2s}
+.contact-item:hover{border-color:var(--accent-c);background:var(--subtle)}
+.contact-ic{width:32px;height:32px;border-radius:50%;background:var(--subtle);display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--accent-c)}
+.contact-ic svg{width:14px;height:14px}
+.contact-lbl{font-size:.63rem;font-weight:400;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);margin-bottom:.12rem}
+.contact-val{font-size:.875rem;font-weight:300;line-height:1.5}
+.contact-val a:hover{color:var(--accent-c)}
+
+/* FOOTER */
+footer{padding:4.5rem 0 2.5rem;border-top:1px solid var(--border);background:var(--bg);transition:background .4s var(--ease)}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr;gap:4rem;padding-bottom:2.75rem;margin-bottom:2.25rem;border-bottom:1px solid var(--border)}
+.footer-brand-name{font-size:.875rem;font-weight:200;letter-spacing:.34em;text-transform:uppercase;margin-bottom:.3rem;color:var(--fg-full)}
+.footer-brand-entity{font-size:.6rem;font-weight:300;letter-spacing:.48em;text-transform:uppercase;color:var(--muted);margin-bottom:.875rem}
+.footer-brand-desc{font-size:.8rem;color:var(--muted);line-height:1.7;max-width:280px}
+.footer-brand-desc a{color:var(--accent-c)}
+.footer-col-title{font-size:.6rem;font-weight:400;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);margin-bottom:1.25rem}
+.footer-nav{list-style:none;display:flex;flex-direction:column;gap:.65rem}
+.footer-nav a{font-size:.8rem;color:var(--muted);transition:color .2s}
+.footer-nav a:hover{color:var(--fg)}
+.footer-bottom{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+.footer-copy{font-size:.72rem;color:var(--muted)}
+.footer-copy a{color:inherit;transition:color .2s}
+.footer-copy a:hover{color:var(--fg)}
+
+/* REVEAL */
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .75s var(--ease),transform .75s var(--ease)}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.d1{transition-delay:.1s}.d2{transition-delay:.2s}.d3{transition-delay:.3s}
+
+/* POPUP */
+.popup-overlay{display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.55);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);align-items:center;justify-content:center;padding:2rem}
+.popup-overlay.open{display:flex}
+.popup-box{background:var(--bg);border:1px solid var(--border);border-radius:4px;max-width:720px;width:100%;max-height:80vh;overflow-y:auto;position:relative;padding:3rem 3.5rem}
+.popup-close{position:absolute;top:1.25rem;right:1.25rem;width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;color:var(--muted);font-size:1.25rem;transition:background .2s,color .2s}
+.popup-close:hover{background:var(--subtle);color:var(--fg)}
+.popup-title{font-size:1.5rem;font-weight:200;letter-spacing:-.02em;margin-bottom:2rem;padding-right:2rem}
+.popup-body{font-size:.9125rem;line-height:1.82;color:var(--muted)}
+.popup-body h3{font-size:1rem;font-weight:400;color:var(--fg);margin:1.75rem 0 .5rem}
+.popup-body p{margin-bottom:1rem}
+.popup-body p:last-child{margin-bottom:0}
+.popup-body a{color:var(--accent-c)}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .about-grid,.contact-layout,.inflection-inner{grid-template-columns:1fr;gap:3.5rem}
+  .practices-grid{grid-template-columns:1fr 1fr}
+  .team-card{grid-template-columns:160px 1fr;gap:3rem}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:2.5rem}
+  .stats-row{gap:2rem}
+}
+@media(max-width:680px){
+  .practices-grid,.footer-grid{grid-template-columns:1fr}
+  .team-card{grid-template-columns:1fr}
+  .team-photo{max-width:180px}
+}
+@media(max-width:560px){
+  .container{padding:0 1.25rem}
+  section{padding:4rem 0}
+  nav{padding:0 1.25rem}
+  h1.headline{font-size:2.5rem}
+  .stats-row{flex-direction:column;gap:1.5rem}
+  .footer-bottom{flex-direction:column;align-items:flex-start}
+  .popup-box{padding:2rem 1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="nav-logo" aria-label="GLYSK Advisory">
+    <svg class="nav-logo-mark" viewBox="0 0 88 88" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect x="10" y="44" width="14" height="26" rx="3" stroke="currentColor" stroke-width="1.6" opacity="0.44"/>
+      <rect x="30" y="30" width="14" height="40" rx="3" stroke="currentColor" stroke-width="1.6" opacity="0.66"/>
+      <rect x="50" y="14" width="14" height="56" rx="3" stroke="currentColor" stroke-width="1.6" opacity="0.88"/>
+    </svg>
+    <div class="nav-logo-text">
+      <span class="nav-logo-name">GLYSK</span>
+      <span class="nav-logo-entity">Advisory</span>
+    </div>
+  </a>
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#practices">Practice Areas</a></li>
+    <li><a href="#inflection">Inflection Scan</a></li>
+    <li><a href="#team">Team</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="careers.html" data-popup-page>Careers</a></li>
+    <li><a href="https://holdings.glysk.eu" target="_blank" rel="noopener">Holdings ↗</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-toggle" id="theme-btn" type="button" aria-label="Toggle light/dark mode">
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"/>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
+      </svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+      </svg>
+    </button>
+    <a href="https://koalendar.com/e/meet-with-giuseppe-lopes" data-koalendar-widget data-koa-type="popup" class="btn-nav">Book a Meeting</a>
+    <button class="hamburger" id="hamburger" type="button" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-glow" aria-hidden="true"></div>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Technology Advisory &middot; EU</p>
+    <h1 class="headline reveal">
+      Turning complexity<br><em>into competitive advantage.</em>
+    </h1>
+    <p class="hero-sub reveal d1">
+      A technology advisory boutique. We help companies assess their tech maturity,
+      define the transformation roadmap, and execute it. Data-driven, end to end.
+    </p>
+    <div class="reveal d2">
+      <a href="#about" class="hero-secondary">Discover more &darr;</a>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="reveal">
+        <div class="label">About</div>
+        <h2>Where transformation<br>meets execution.</h2>
+        <div class="stats-row">
+          <div><div class="stat-num">EU</div><div class="stat-lbl">Primary Market</div></div>
+          <div><div class="stat-num">3</div><div class="stat-lbl">Practice Areas</div></div>
+          <div><div class="stat-num">Top</div><div class="stat-lbl">Acceleration Hubs</div></div>
+        </div>
+      </div>
+      <div class="about-right reveal d1">
+        <p>GLYSK Advisory is a technology advisory boutique specialising in
+          <strong>business transformation</strong> for EU-based companies.
+          We work where complexity lives — tech maturity assessment, use case definition,
+          proof of concept, feasibility analysis, ROI modelling, and change management.</p>
+        <p>We developed a proprietary framework and methodology built around one starting point:
+          the <a href="#inflection">Inflection Scan</a> — a focused two-week exploration designed to surface criticalities,
+          failure points, change management exposure, and transformation readiness.
+          From there we build the AI foundation model for the company itself.
+          Only then do we support implementation — software delivery, process automation,
+          RPA application and switching, and full AI adoption. Every decision is data-driven.
+          KPI evidence in hand, always.</p>
+        <p>Where we engage with early-stage companies or startups, we may co-invest directly
+          through <a href="https://holdings.glysk.eu" target="_blank" rel="noopener">GLYSK Holdings OÜ</a>
+          — formerly The Grid Capital. This is a residual activity, not our primary focus.
+          Advisory leads. Everything else follows.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- PRACTICE AREAS -->
+<section id="practices">
+  <div class="container">
+    <div class="practices-top reveal">
+      <div class="label">Practice Areas</div>
+      <h2>Where we work.</h2>
+    </div>
+    <div class="practices-grid">
+      <div class="practice-card reveal d1">
+        <div class="practice-num">01</div>
+        <div class="practice-title">Intelligence at Work</div>
+        <p class="practice-body">AI-readiness, digital transformation, and intelligent automation for companies entering their next stage of growth. We surface the roadmap and help execute it.</p>
+        <span class="practice-tag">AI Transformation</span>
+      </div>
+      <div class="practice-card reveal d2">
+        <div class="practice-num">02</div>
+        <div class="practice-title">Growth &amp; Scaling</div>
+        <p class="practice-body">Go-to-market strategy, market entry, and commercial acceleration for companies ready to move beyond their initial beachhead.</p>
+        <span class="practice-tag">GTM &middot; Expansion</span>
+      </div>
+      <div class="practice-card reveal d3">
+        <div class="practice-num">03</div>
+        <div class="practice-title">Strategic Transformation</div>
+        <p class="practice-body">Business model evolution, change management, and execution support for leadership teams navigating complex transitions and legacy environments.</p>
+        <span class="practice-tag">Change Management</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- INFLECTION SCAN -->
+<section id="inflection">
+  <div class="container">
+    <div class="inflection-inner">
+      <div class="reveal">
+        <div class="label">Featured Product</div>
+        <h2>The Inflection Scan.</h2>
+        <p>A focused two-week diagnostic that surfaces the roadmap your company needs to move from where it is to where it should be.</p>
+        <p>Delivered as a standalone or as the entry point to a larger advisory mandate. No generic frameworks. No fluff.</p>
+        <a href="https://koalendar.com/e/meet-with-giuseppe-lopes" data-koalendar-widget data-koa-type="popup" class="btn-primary">
+          Request the Scan
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+        </a>
+      </div>
+      <div class="reveal d1">
+        <div class="inflection-right">
+          <div class="inflection-header">
+            <span class="inflection-header-title">The Inflection Scan</span>
+            <span class="inflection-badge">2 Weeks</span>
+          </div>
+          <ol class="inflection-steps">
+            <li class="inflection-step">
+              <span class="step-num">01</span>
+              <div><div class="step-title">Discovery &amp; Diagnosis</div><div class="step-desc">Structured interviews with leadership and key stakeholders. We map the current state honestly.</div></div>
+            </li>
+            <li class="inflection-step">
+              <span class="step-num">02</span>
+              <div><div class="step-title">Gap &amp; Opportunity Analysis</div><div class="step-desc">We identify where friction lives, where value is being left on the table, and what the market is signalling.</div></div>
+            </li>
+            <li class="inflection-step">
+              <span class="step-num">03</span>
+              <div><div class="step-title">Roadmap &amp; Recommendations</div><div class="step-desc">A clear, prioritised action plan that GLYSK is best positioned to help execute.</div></div>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- TEAM -->
+<section id="team">
+  <div class="container">
+    <div class="label reveal">Team</div>
+    <div class="carousel-wrap">
+      <div class="carousel" id="team-carousel">
+
+        <div class="team-card">
+          <div class="team-photo">
+            <img src="./assets/giuseppe.jpeg" alt="Giuseppe Lopes" loading="lazy">
+          </div>
+          <div>
+            <h2 class="team-name">Giuseppe Lopes</h2>
+            <p class="team-role">Principal Advisor &amp; Founder &middot; Italy</p>
+            <blockquote class="team-quote">I specialise in turning high-potential ideas into scalable success stories. <strong>My work bridges the gap between visionary technology and measurable business impact.</strong> Driven by curiosity and execution.</blockquote>
+            <p class="team-body">Specialised in business transformation, AI adoption, and tech maturity assessment. Over a career spanning B2B SaaS, tech ventures, and complex enterprise environments, the constant has been building things that work in the real world, not just on slides.</p>
+            <div class="team-credentials">
+              <span class="credential">Trusted Advisor &middot; Acceleration Hubs</span>
+              <span class="credential">AI Transformation</span>
+              <span class="credential">Business Transformation</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-photo team-photo-ph"><span class="team-initials">MT</span></div>
+          <div>
+            <h2 class="team-name">Maarja Tamm</h2>
+            <p class="team-role">Partner &middot; Estonia</p>
+            <blockquote class="team-quote"><strong>Technology transformation only works when the organisation is ready for it.</strong> My focus is on the human side of change — making sure adoption actually happens.</blockquote>
+            <p class="team-body">Specialised in organisational change management, digital adoption strategy, and stakeholder alignment across complex transformation programmes. Deep experience in the Baltic and Nordic markets.</p>
+            <div class="team-credentials">
+              <span class="credential">Change Management</span>
+              <span class="credential">Digital Adoption</span>
+              <span class="credential">Baltic &amp; Nordic Markets</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-photo team-photo-ph"><span class="team-initials">LH</span></div>
+          <div>
+            <h2 class="team-name">Lukas Heinemann</h2>
+            <p class="team-role">Partner &middot; Germany</p>
+            <blockquote class="team-quote"><strong>The gap between a feasible AI use case and a deployed one is where most companies get stuck.</strong> That is exactly where I work.</blockquote>
+            <p class="team-body">Specialised in AI engineering, process automation, and RPA implementation for mid-market and enterprise clients. Brings a rigorous, engineering-first perspective to every transformation engagement.</p>
+            <div class="team-credentials">
+              <span class="credential">AI Engineering</span>
+              <span class="credential">RPA &amp; Automation</span>
+              <span class="credential">DACH Markets</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <div class="team-photo team-photo-ph"><span class="team-initials">EW</span></div>
+          <div>
+            <h2 class="team-name">Eleanor Whitmore</h2>
+            <p class="team-role">Partner &middot; United Kingdom</p>
+            <blockquote class="team-quote"><strong>Data-driven decisions are only as good as the KPIs behind them.</strong> I make sure the evidence is solid before any strategy is set.</blockquote>
+            <p class="team-body">Specialised in data strategy, KPI framework design, and analytics-led transformation. Works with leadership teams to build the measurement foundations that make transformation outcomes visible and defensible.</p>
+            <div class="team-credentials">
+              <span class="credential">Data Strategy</span>
+              <span class="credential">KPI Frameworks</span>
+              <span class="credential">Analytics &amp; BI</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="carousel-dots" id="carousel-dots">
+        <button class="dot active" data-idx="0" type="button" aria-label="Giuseppe Lopes"></button>
+        <button class="dot"        data-idx="1" type="button" aria-label="Maarja Tamm"></button>
+        <button class="dot"        data-idx="2" type="button" aria-label="Lukas Heinemann"></button>
+        <button class="dot"        data-idx="3" type="button" aria-label="Eleanor Whitmore"></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="rule">
+
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-layout">
+      <div class="reveal">
+        <div class="label">Contact</div>
+        <h2>Let's talk about<br>what you're building.</h2>
+        <p>We work with a focused number of clients at any time. If there is alignment, we move fast.</p>
+        <a href="https://koalendar.com/e/meet-with-giuseppe-lopes" data-koalendar-widget data-koa-type="popup" class="btn-primary">
+          Book a Meeting
+          <svg viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 7h10M8 3l4 4-4 4"/></svg>
+        </a>
+      </div>
+      <div class="contact-items reveal d1">
+
+        <div class="contact-item">
+          <div class="contact-ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div>
+            <div class="contact-lbl">Email</div>
+            <div class="contact-val"><a href="mailto:hello@glysk.eu">hello@glysk.eu</a></div>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+          </div>
+          <div>
+            <div class="contact-lbl">Offices</div>
+            <div class="contact-val">
+              Milan &mdash; Viale Monte Nero 6, 20135<br>
+              Tallinn &mdash; Harju maakond, Kesklinna linnaosa,<br>Tornim&auml;e tn 5, 10145
+            </div>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+              <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+            </svg>
+          </div>
+          <div>
+            <div class="contact-lbl">LinkedIn</div>
+            <div class="contact-val"><a href="https://www.linkedin.com/company/glysk" target="_blank" rel="noopener">GLYSK O&Uuml; Advisory</a></div>
+          </div>
+        </div>
+
+        <div class="contact-item">
+          <div class="contact-ic" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.253 5.622 5.911-5.622zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="contact-lbl">X / Twitter</div>
+            <div class="contact-val"><a href="https://x.com/GLYSK_Advisory" target="_blank" rel="noopener">@GLYSK_Advisory</a></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">GLYSK</div>
+        <div class="footer-brand-entity">Advisory</div>
+        <p class="footer-brand-desc">
+          Strategic advisory for EU tech and AI-enabled companies.<br>
+          Vision is the start. Execution is the work.<br><br>
+          GLYSK Advisory is part of
+          <a href="https://holdings.glysk.eu" target="_blank" rel="noopener">GLYSK Holdings O&Uuml;</a>
+          (formerly The Grid Capital).
+        </p>
+      </div>
+      <div>
+        <div class="footer-col-title">Practice Areas</div>
+        <ul class="footer-nav">
+          <li><a href="#practices">Intelligence at Work</a></li>
+          <li><a href="#practices">Growth &amp; Scaling</a></li>
+          <li><a href="#practices">Strategic Transformation</a></li>
+          <li><a href="#inflection">The Inflection Scan</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Links</div>
+        <ul class="footer-nav">
+          <li><a href="#about">About</a></li>
+          <li><a href="#team">Team</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="careers.html" data-popup-page>Careers</a></li>
+          <li><a href="https://holdings.glysk.eu" target="_blank" rel="noopener">GLYSK Holdings</a></li>
+          <li><a href="privacy.html" data-popup-page>Privacy Notice</a></li>
+          <li><a href="cookie.html" data-popup-page>Cookie Notice</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">&copy; 2025 GLYSK Holdings O&Uuml; &mdash; Reg.&nbsp;14772172 &mdash; VAT&nbsp;EE102953686</p>
+      <p class="footer-copy"><a href="mailto:hello@glysk.eu">hello@glysk.eu</a></p>
+    </div>
+  </div>
+</footer>
+
+
+<!-- POPUP OVERLAY -->
+<div class="popup-overlay" id="page-popup" role="dialog" aria-modal="true" aria-labelledby="popup-title">
+  <div class="popup-box">
+    <button class="popup-close" id="popup-close" type="button" aria-label="Close">&times;</button>
+    <h2 class="popup-title" id="popup-title"></h2>
+    <div class="popup-body" id="popup-body"></div>
+  </div>
+</div>
+
+
+<!-- JAVASCRIPT — single self-contained block, no external deps -->
+<script>
+(function () {
+  'use strict';
+
+  /* ─── THEME ──────────────────────────────────────────────── */
+  var htmlEl = document.documentElement;
+
+  function themeByTime() {
+    var h = new Date().getHours();
+    return (h >= 19 || h < 7) ? 'dark' : 'light';
+  }
+
+  // Set theme on load: saved pref → time-based fallback → light
+  htmlEl.setAttribute('data-theme',
+    localStorage.getItem('glysk-theme') || themeByTime()
+  );
+
+  document.getElementById('theme-btn').addEventListener('click', function () {
+    var current = htmlEl.getAttribute('data-theme');
+    var next    = current === 'dark' ? 'light' : 'dark';
+    htmlEl.setAttribute('data-theme', next);
+    localStorage.setItem('glysk-theme', next);
+  });
+
+
+  /* ─── MOBILE NAV ─────────────────────────────────────────── */
+  var navEl = document.getElementById('nav');
+
+  document.getElementById('hamburger').addEventListener('click', function () {
+    navEl.classList.toggle('open');
+  });
+
+  document.querySelectorAll('#nav-links a').forEach(function (a) {
+    a.addEventListener('click', function () {
+      navEl.classList.remove('open');
+    });
+  });
+
+
+  /* ─── SCROLL REVEAL ──────────────────────────────────────── */
+  var revealEls = document.querySelectorAll('.reveal');
+
+  var revealObs = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.10, rootMargin: '0px 0px -32px 0px' });
+
+  revealEls.forEach(function (el) { revealObs.observe(el); });
+
+  // Hero fires immediately without waiting for scroll
+  document.querySelectorAll('#hero .reveal').forEach(function (el) {
+    el.classList.add('visible');
+  });
+
+
+  /* ─── ACTIVE NAV ─────────────────────────────────────────── */
+  var sections = document.querySelectorAll('section[id]');
+  var navLinks = document.querySelectorAll('#nav-links a');
+
+  window.addEventListener('scroll', function () {
+    var cur = '';
+    sections.forEach(function (s) {
+      if (window.scrollY >= s.offsetTop - 100) cur = s.id;
+    });
+    navLinks.forEach(function (a) {
+      a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
+    });
+  }, { passive: true });
+
+
+  /* ─── TEAM CAROUSEL ──────────────────────────────────────── */
+  var track   = document.getElementById('team-carousel');
+  var dotBtns = document.querySelectorAll('#carousel-dots .dot');
+  var total   = dotBtns.length;   // 4
+  var current = 0;
+  var timer   = null;
+
+  function goTo(idx) {
+    current = ((idx % total) + total) % total;
+    track.style.transform = 'translateX(-' + (current * 100) + '%)';
+    dotBtns.forEach(function (d, i) {
+      d.classList.toggle('active', i === current);
+    });
+  }
+
+  function startAutoPlay() {
+    stopAutoPlay();
+    timer = setInterval(function () { goTo(current + 1); }, 5000);
+  }
+
+  function stopAutoPlay() {
+    if (timer) { clearInterval(timer); timer = null; }
+  }
+
+  dotBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      goTo(parseInt(btn.getAttribute('data-idx'), 10));
+      startAutoPlay(); // reset timer on manual nav
+    });
+  });
+
+  startAutoPlay();
+
+
+  /* ─── POPUP PAGES ────────────────────────────────────────── */
+  var popupPages = {
+    'careers.html': {
+      title: 'Careers',
+      body: [
+        '<p>We are always looking for exceptional people. GLYSK Advisory is a boutique practice ',
+        '— we hire rarely, but when we do, we look for depth over breadth and execution over credentials.</p>',
+        '<h3>Open Positions</h3>',
+        '<p>There are no open positions at this time. We are not accepting speculative applications.</p>',
+        '<h3>Future Opportunities</h3>',
+        '<p>If you believe your background is genuinely relevant to our work, ',
+        'introduce yourself at <a href="mailto:hello@glysk.eu">hello@glysk.eu</a>. No agencies, please.</p>'
+      ].join('')
+    },
+    'privacy.html': {
+      title: 'Privacy Notice',
+      body: [
+        '<p>Last updated: March 2025</p>',
+        '<h3>Introduction</h3>',
+        '<p>GLYSK Advisory, part of GLYSK Holdings OÜ, is committed to protecting your personal data. ',
+        'This notice explains how we collect, use and protect it when you visit this website.</p>',
+        '<h3>Data We Collect</h3>',
+        '<p>We may collect basic usage data through privacy-respecting analytics. We do not use advertising trackers. ',
+        'We collect contact information only when you voluntarily submit it via a meeting booking or email.</p>',
+        '<h3>How We Use Your Data</h3>',
+        '<p>Data is used solely to respond to your enquiry or to improve this website. ',
+        'We do not sell, share, or transfer personal data to third parties.</p>',
+        '<h3>Cookies</h3>',
+        '<p>This site uses one functional cookie to remember your light/dark mode preference. See our Cookie Notice for details.</p>',
+        '<h3>Your Rights</h3>',
+        '<p>Under GDPR you have the right to access, correct, or request deletion of your data. ',
+        'Contact us at <a href="mailto:hello@glysk.eu">hello@glysk.eu</a>.</p>',
+        '<h3>Controller</h3>',
+        '<p>GLYSK Holdings OÜ &mdash; Harju maakond, Kesklinna linnaosa, Tornimäe tn 5, 10145 Tallinn, Estonia. Reg. 14772172.</p>'
+      ].join('')
+    },
+    'cookie.html': {
+      title: 'Cookie Notice',
+      body: [
+        '<p>Last updated: March 2025</p>',
+        '<h3>What Are Cookies</h3>',
+        '<p>Cookies are small text files stored on your device when you visit a website.</p>',
+        '<h3>Cookies We Use</h3>',
+        '<p>This website uses one first-party cookie named <code style="font-family:monospace;font-size:.85em;',
+        'background:var(--subtle);padding:.1em .35em;border-radius:2px">glysk-theme</code>. ',
+        'It stores your light or dark mode preference. It contains no personal data and is not shared with any third party.</p>',
+        '<h3>Third-Party Cookies</h3>',
+        '<p>We use Koalendar for meeting scheduling. When you interact with the booking widget, ',
+        'Koalendar may set its own cookies. Please refer to ',
+        '<a href="https://koalendar.com/privacy" target="_blank" rel="noopener">Koalendar\'s privacy policy</a> for details.</p>',
+        '<h3>Managing Cookies</h3>',
+        '<p>You can control and delete cookies through your browser settings. ',
+        'Disabling the theme cookie will not affect site functionality.</p>',
+        '<h3>Contact</h3>',
+        '<p>Questions? <a href="mailto:hello@glysk.eu">hello@glysk.eu</a>.</p>'
+      ].join('')
+    }
+  };
+
+  var overlay    = document.getElementById('page-popup');
+  var popTitle   = document.getElementById('popup-title');
+  var popBody    = document.getElementById('popup-body');
+  var popClose   = document.getElementById('popup-close');
+
+  function openPopup(page) {
+    var data = popupPages[page];
+    if (!data) return;
+    popTitle.textContent = data.title;
+    popBody.innerHTML    = data.body;
+    overlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePopup() {
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('[data-popup-page]').forEach(function (el) {
+    el.addEventListener('click', function (e) {
+      e.preventDefault();
+      openPopup(el.getAttribute('href'));
+    });
+  });
+
+  popClose.addEventListener('click', closePopup);
+  overlay.addEventListener('click', function (e) {
+    if (e.target === overlay) closePopup();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closePopup();
+  });
+
+})();
+</script>
+
+</body>
+</html>
