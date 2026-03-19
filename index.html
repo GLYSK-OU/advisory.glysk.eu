@@ -54,7 +54,7 @@
 <!-- Koalendar booking widget — must stay in <head> -->
 <script>window.Koalendar=window.Koalendar||function(){(Koalendar.props=Koalendar.props||[]).push(arguments)};</script>
 <script async src="https://koalendar.com/assets/widget.js"></script>
-<script>Koalendar('init');</script>
+<script>document.addEventListener('DOMContentLoaded', function(){ Koalendar('init'); });</script>
 
 <style>
 
@@ -774,7 +774,7 @@ footer {
 <!-- ================================================================
      TEAM CAROUSEL
      4 cards inside #team-carousel. Dots in #carousel-dots.
-     CARD 1 — Giuseppe Lopes     (real photo: assets/giuseppe.jpeg)
+     CARD 1 — Giuseppe Lopes     (real photo: assets/giuseppe_lopes.jpeg)
      CARD 2 — Maarja Tamm        (placeholder: initials MT)
      CARD 3 — Lukas Heinemann    (placeholder: initials LH)
      CARD 4 — Eleanor Whitmore   (placeholder: initials EW)
@@ -791,17 +791,17 @@ footer {
         <!-- CARD 1: Giuseppe Lopes -->
         <div class="team-card">
           <div class="team-photo">
-            <img src="./assets/giuseppe.jpeg" alt="Giuseppe Lopes" loading="lazy">
+            <img src="./assets/giuseppe_lopes.jpeg" alt="Giuseppe Lopes" loading="lazy">
           </div>
           <div>
             <h2 class="team-name">Giuseppe Lopes</h2>
-            <p class="team-role">Principal Advisor &amp; Founder &middot; Italy</p>
+            <p class="team-role">Managing Partner &amp; Founder &middot; Italy</p>
             <blockquote class="team-quote">
               I specialise in turning high-potential ideas into scalable success stories.
               <strong>My work bridges the gap between visionary technology and measurable business impact.</strong>
               Driven by curiosity and execution.
             </blockquote>
-            <p class="team-body">Specialised in business transformation, AI adoption, and tech maturity assessment.
+            <p class="team-body">Specialised in business transformation, AI adoption, and tech maturity roadmaps.
               Over a career spanning B2B SaaS, tech ventures, and complex enterprise environments,
               the constant has been building things that work in the real world, not just on slides.</p>
             <div class="team-credentials">
