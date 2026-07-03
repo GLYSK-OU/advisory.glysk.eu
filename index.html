@@ -15,13 +15,18 @@
   NAV LINKS      Search: id="nav-links"
   FOOTER COPY    Search: footer-bottom
   POPUP CONTENT  Search: popupPages  (Careers / Privacy / Cookie)
-  DARK/LIGHT HOURS Search: themeByTime
+  THEME TOGGLE    Search: glysk-theme   (Auto / Light / Dark, system-aware)
   CAROUSEL SPEED  Search: setInterval  (default 5000ms = 5s)
   ================================================================
 -->
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#F6F3EE">
+<!-- Pre-paint theme: set data-theme before first paint to avoid a flash. Auto/Light/Dark cycle handled by the main script. -->
+<script>
+(function(){try{var m=localStorage.getItem('glysk-theme');if(['system','light','dark'].indexOf(m)<0)m='system';var d=(m==='dark'||(m==='system'&&window.matchMedia('(prefers-color-scheme: dark)').matches));document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();
+</script>
 <title>GLYSK Advisory — Technology Advisory Boutique</title>
 <meta name="description" content="GLYSK Advisory is a technology advisory boutique. We help EU companies assess tech maturity, define transformation roadmaps, and execute them. Data-driven, end to end.">
 <meta property="og:title" content="GLYSK Advisory">
@@ -117,18 +122,13 @@ nav {
 
 /* ----------------------------------------------------------------
    THEME TOGGLE ICONS
-   Sun  = shown in light mode  (.icon-sun)
-   Moon = shown in dark mode   (.icon-moon)
-   Switching is done by toggling [data-theme="light"] on <html>.
-   DO NOT change these display values without updating the JS too.
+   A single circular button (#theme-btn) cycles Auto → Light → Dark.
+   The icon is injected by JS to match the current mode.
    ---------------------------------------------------------------- */
 .theme-toggle { width:38px; height:38px; display:flex; align-items:center; justify-content:center; border-radius:50%; color:var(--muted); transition:color .2s, background .2s }
 .theme-toggle:hover { color:var(--fg); background:var(--subtle) }
 .theme-toggle svg { width:17px; height:17px; display:block; pointer-events:none }
-.icon-sun  { display:none }
-.icon-moon { display:block }
-[data-theme="light"] .icon-sun  { display:block }
-[data-theme="light"] .icon-moon { display:none }
+/* Toggle icon is injected by JS to match the active mode (Auto / Light / Dark). */
 
 .btn-nav {
   font-size:.72rem; font-weight:400; letter-spacing:.1em; text-transform:uppercase;
@@ -425,15 +425,9 @@ footer { padding:4.5rem 0 2.5rem; border-top:1px solid var(--border); background
     <li><a href="https://holdings.glysk.eu" target="_blank" rel="noopener">Holdings &#8599;</a></li>
   </ul>
   <div class="nav-right">
-    <!-- Theme toggle: sun shown in light mode, moon shown in dark mode -->
-    <button class="theme-toggle" id="theme-btn" type="button" aria-label="Toggle light/dark mode">
-      <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-        <circle cx="12" cy="12" r="4"/>
-        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>
-      </svg>
-      <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-      </svg>
+    <!-- Theme toggle: Auto → Light → Dark. Icon is set by JS to match the current mode. -->
+    <button class="theme-toggle" id="theme-btn" type="button" aria-label="Theme">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>
     </button>
     <!-- Koalendar booking button — opens inline popup widget -->
     <a href="https://koalendar.com/e/meetGLYSK" data-koalendar-widget data-koa-type="popup" class="btn-nav">Book a Meeting</a>
@@ -905,26 +899,53 @@ footer { padding:4.5rem 0 2.5rem; border-top:1px solid var(--border); background
   'use strict';
 
   /* ── 1. THEME ────────────────────────────────────────────────
-     Auto-switch: dark from 19:00 to 07:00, light otherwise.
-     Manual toggle saves preference to localStorage (key: glysk-theme).
-     To change hours: edit the themeByTime() function below.
+     Auto / Light / Dark toggle (system-aware). Click cycles the modes;
+     the choice is saved to localStorage (key: glysk-theme). "Auto"
+     follows the OS setting and updates live when it changes.
      ──────────────────────────────────────────────────────────── */
+  /* Auto / Light / Dark — system-aware, ported from the anglerbook toggle. */
   var htmlEl = document.documentElement;
+  var THEME_KEY = 'glysk-theme';
+  var THEME_MODES = ['system', 'light', 'dark'];
+  var THEME_LABELS = { system: 'Auto', light: 'Light', dark: 'Dark' };
+  var THEME_ICON = {
+    system: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg>',
+    light:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>',
+    dark:   '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>'
+  };
+  var THEME_META = { light: '#F6F3EE', dark: '#111111' };
+  var themeMq = window.matchMedia('(prefers-color-scheme: dark)');
 
-  function themeByTime() {
-    var h = new Date().getHours();
-    return (h >= 19 || h < 7) ? 'dark' : 'light';
+  function themeGet() { try { var m = localStorage.getItem(THEME_KEY); return THEME_MODES.indexOf(m) >= 0 ? m : 'system'; } catch (e) { return 'system'; } }
+  function themeStore(m) { try { localStorage.setItem(THEME_KEY, m); } catch (e) {} }
+  function themeResolve(m) { return (m === 'dark' || (m === 'system' && themeMq.matches)) ? 'dark' : 'light'; }
+  function themeApply(m) {
+    var r = themeResolve(m);
+    htmlEl.setAttribute('data-theme', r);
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', THEME_META[r]);
+  }
+  function themeRender(btn, m) {
+    btn.innerHTML = THEME_ICON[m];
+    var next = THEME_MODES[(THEME_MODES.indexOf(m) + 1) % THEME_MODES.length];
+    btn.setAttribute('aria-label', 'Theme: ' + THEME_LABELS[m] + '. Activate for ' + THEME_LABELS[next] + '.');
+    btn.title = 'Theme: ' + THEME_LABELS[m];
   }
 
-  htmlEl.setAttribute('data-theme',
-    localStorage.getItem('glysk-theme') || themeByTime()
-  );
+  themeApply(themeGet());
 
-  document.getElementById('theme-btn').addEventListener('click', function () {
-    var next = htmlEl.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-    htmlEl.setAttribute('data-theme', next);
-    localStorage.setItem('glysk-theme', next);
-  });
+  var themeBtn = document.getElementById('theme-btn');
+  if (themeBtn) {
+    themeRender(themeBtn, themeGet());
+    themeBtn.addEventListener('click', function () {
+      var m = THEME_MODES[(THEME_MODES.indexOf(themeGet()) + 1) % THEME_MODES.length];
+      themeStore(m); themeApply(m); themeRender(themeBtn, m);
+    });
+  }
+
+  var themeOnSys = function () { if (themeGet() === 'system') themeApply('system'); };
+  if (themeMq.addEventListener) themeMq.addEventListener('change', themeOnSys);
+  else if (themeMq.addListener) themeMq.addListener(themeOnSys);
 
 
   /* ── 2. MOBILE NAV ───────────────────────────────────────────
